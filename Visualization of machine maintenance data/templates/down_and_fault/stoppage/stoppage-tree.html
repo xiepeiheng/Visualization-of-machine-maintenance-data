@@ -1,0 +1,179 @@
+<!-- 矩形树图 -->
+
+{#    <div id="main1" class="biggrp"></div>#}
+{#    <script type="text/javascript">      #}
+{#        // 基于准备好的dom，初始化echarts实例 #}
+{#        var myChart = echarts.init(document.getElementById('main1'), {devicePixelRatio: 4});#}
+{##}
+{#        // 指定图表的配置项和数据#}
+{#        option = {#}
+{#            title: {#}
+{#                text: '机组整体情况（图1）',#}
+{#                textStyle: {#}
+{#                    fontSize: 30   //文字大小#}
+{#                },#}
+{#            },#}
+{#            tooltip: {#}
+{#                trigger: 'item',#}
+{#            },#}
+{#            series: [{#}
+{#                name:'全部机组',#}
+{#                type: 'treemap',#}
+{#                leafDepth: 1,#}
+{#                drillDownIcon: '',#}
+{#                roam: 'false',#}
+{#                label: {#}
+{#                    fontSize: 20,#}
+{#                    formatter: '{b} : {c}天',#}
+{#                },#}
+{##}
+{#                data: {{ cmy1[0]['children']|tojson }}#}
+{#            }]#}
+{##}
+{#        };#}
+{##}
+{#        // 使用刚指定的配置项和数据显示图表。#}
+{#        myChart.setOption(option);#}
+{#    </script>#}
+
+<!--第一部分-->
+
+<!-- 树图 -->
+<div id="main2" class="biggrp"></div>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main2'), {devicePixelRatio: 4});
+
+    // 指定图表的配置项和数据
+    option = {
+        title: {
+            text: '机组整体情况',
+            textStyle: {
+                fontSize: 30   //文字大小
+            },
+        },
+        {#tooltip: {#}
+        {#    trigger: 'item',#}
+        {#    triggerOn: 'mousemove'#}
+        //},
+        series: [
+            {
+                type: 'tree',
+                data: {{ cmy1|tojson }},
+                top: '1%',
+                left: '15%',
+                bottom: '1%',
+                right: '10%',
+                symbolSize: 15,
+                itemStyle: {
+                    borderWidth: 3,
+                    borderType: 'solid'
+                },
+                label: {
+                    position: 'left',
+                    verticalAlign: 'middle',
+                    align: 'right',
+                    fontSize: 16,
+                    {#formatter: '{b} :{c}',#}
+                    formatter: '{b} :{c}',
+                    fontWeight: 'bold'
+                },
+                leaves: {
+                    label: {
+                        position: 'left',
+                        verticalAlign: 'middle',
+                        align: 'right'
+                    }
+                },
+                labelLayout: {
+                    moveOverlap: 'shiftY'
+                },
+
+                emphasis: {
+                    focus: 'descendant',
+                },
+
+                expandAndCollapse: true,
+                animationDuration: 550,
+                animationDurationUpdate: 750
+            }
+        ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>
+
+<!-- 树图 -->
+<div id="main4" class="biggrp"></div>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main4'), {devicePixelRatio: 4});
+
+    // 指定图表的配置项和数据
+    option = {
+        title: {
+            text: '故障整体情况',
+            textStyle: {
+                fontSize: 30   //文字大小
+            },
+        },
+        {#tooltip: {#}
+        {#    trigger: 'item',#}
+        {#    triggerOn: 'mousemove'#}
+        //},
+        series: [
+            {
+                type: 'tree',
+
+                data: [{{ cmy2|tojson }}],
+                top: '1%',
+                left: '15%',
+                bottom: '1%',
+                right: '10%',
+                symbolSize: 15,
+                itemStyle: {
+                    borderWidth: 3,
+                    borderType: 'solid'
+                },
+                label: {
+                    position: 'left',
+                    verticalAlign: 'middle',
+                    align: 'right',
+                    fontSize: 16,
+                    formatter: '{b} :{c}',
+                    fontWeight: 'bold'
+                },
+
+                leaves: {
+                    label: {
+                        position: 'left',
+                        verticalAlign: 'middle',
+                        align: 'right'
+                    }
+                },
+                labelLayout: {
+                    moveOverlap: 'shiftY'
+                },
+
+                emphasis: {
+                    focus: 'descendant',
+                },
+
+                expandAndCollapse: true,
+                animationDuration: 550,
+                animationDurationUpdate: 750
+            }
+        ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>
+
+<!--第二部分-->
+<!--柱状图 数据透视表形式的柱状图-->
+
+
+
+

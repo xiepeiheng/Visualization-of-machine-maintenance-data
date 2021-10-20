@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh">
+<meta charset="UTF-8">
+<title>132</title>
+<head>
+    <script src="../../static/js/echarts.min.js"></script>
+    <script src="../../static/js/jquery-3.6.0.min.js"></script>
+    <script src="../../static/datepick/bootstrap-datepicker.min.js"></script>
+    <script src="../../static/datepick/bootstrap-datepicker.zh-CN.js"></script>
+    <script src="../../static/datepick/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../../static/datepick/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" href="../../static/datepick/bootstrap.min.css">
+
+
+    <script>
+        $(document).ready(function () {
+                var hxy1 = {{ time[0]|tojson }}
+                var hxy2 = {{ time[1]|tojson }}
+            $("#btn").click(function () {
+                let cmy1 = $('#xph1').val()
+                let cmy2 = $('#xph2').val()
+                if (cmy1 > cmy2) {
+                    alert('警告：起始日期大于小于结束日期')
+                    $('#xph1').val(hxy1)
+                    $('#xph2').val(hxy2)
+                } else if (cmy1 == '' || cmy2 == '') {
+                    alert('警告：起始日期或结束日期未选择')
+                    $('#xph1').val(hxy1)
+                    $('#xph2').val(hxy2)
+                } else if (cmy1 == hxy1 && cmy2 == hxy2) {
+                    alert('警告：本次选择的日期和上一次完全一样')
+                } else {
+                    $.ajax({
+                        url: '{{ url_for('test2.test2') }}',
+                        type: 'post',
+                        data: cmy1 + cmy2,
+                        contentType: 'application/json',
+                        success: function (data) {
+                            $("#cmy").html(data);
+                            hxy1 = cmy1
+                            hxy2 = cmy2
+                        },
+                        error: function (data) {
+                            alert('出现问题', data)
+                        }
+                    })
+                }
+            });
+            $('#abc1 input').datepicker({
+                language: "zh-CN",
+                clearBtn: true,
+                autoclose: true,
+                todayHighlight: true,
+            });
+            $('#abc2 input').datepicker({
+                language: "zh-CN",
+                clearBtn: true,
+                autoclose: true,
+                todayHighlight: true,
+            });
+        })
+
+
+    </script>
+</head>
+
+<body>
+<h3>请选择时间</h3>
+<div class="col-md-5" id="abc1">
+    <input type="text" id="xph1" value="{{ time[0] }}">
+</div>
+<div class="col-md-5" id="abc2">
+    <input type="text" id="xph2" value="{{ time[1] }}">
+</div>
+<button id="btn">提交</button>
+<div id="cmy">
+{% include name %}
+</div>
+</body>
+</html>

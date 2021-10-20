@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>疫情数据可视化</title>
+    <html lang="zh">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/datalist.css">
+    <script src="../static/js/jquery.js"></script>
+    <script src="../static/js/script.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            {% for i in cmy %}
+                $("#{{ i[0] }}").click(function () {
+                    $(".{{ i[0] }}").toggle();
+                });
+            {% endfor %}
+        });
+        console.log({{ zfh }})
+    </script>
+    </head>
+
+
+<body>
+<!-- 大标题 -->
+<div class="title">
+    <h1>疫情数据可视化</h1>
+</div>
+<!-- 页面导航栏 -->
+<header class="page-header">
+    <div class="inner">
+        <nav class="primary-nav">
+            <ul>
+                <li><a href="picture">动态图表</a></li>
+                <li><a href="datalist">地区详情</a></li>
+                <li><a href="brochure">抗疫宣传</a></li>
+                <li><a href="forecast">疫情预测</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<!-- 页面主要内容 -->
+<main>
+    <!-- 方块1 -->
+    <div class="b1">
+        <div class="b2">
+            <!--国内部分大标题-->
+            <h1>国内部分</h1>
+            <div class="title1"></div>
+            <!--在这里写入主要内容-->
+            <div class="b4">
+                <table class="t1">
+                    <tr>
+                        <td>地区</td>
+                        <td>新增确诊</td>
+                        <td>现有确诊</td>
+                        <td>累计确诊</td>
+                        <td>累计治愈</td>
+                        <td>累计死亡</td>
+                        <td>详细信息</td>
+                    </tr>
+                </table>
+            </div>
+            {% for i in cmy %}
+                {% if i[6] == [] %}
+                    <div class="b3">
+                        <table class="t1">
+                            <tr>
+                                <td>{{ i[0] }}</td>
+                                <td>{{ i[1] }}</td>
+                                <td>{{ i[2] }}</td>
+                                <td>{{ i[3] }}</td>
+                                <td>{{ i[4] }}</td>
+                                <td>{{ i[5] }}</td>
+                                <td>暂缺</td>
+                            </tr>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="b3">
+                        <table class="t1">
+                            <tr>
+                                <td>{{ i[0] }}</td>
+                                <td>{{ i[1] }}</td>
+                                <td>{{ i[2] }}</td>
+                                <td>{{ i[3] }}</td>
+                                <td>{{ i[4] }}</td>
+                                <td>{{ i[5] }}</td>
+                                <td><div class="zfh" type="button" id="{{ i[0] }}">展开/收起</div></td>
+                            </tr>
+                            {% for j in i[6] %}
+                                <tr class="{{ i[0] }}" style="display: none;">
+                                    <td>{{ j[0] }}</td>
+                                    <td>{{ j[1] }}</td>
+                                    <td>{{ j[2] }}</td>
+                                    <td>{{ j[3] }}</td>
+                                    <td>{{ j[4] }}</td>
+                                    <td>{{ j[5] }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <div class="title1"></div>
+            <h1>国际部分</h1>
+            <div class="title1"></div>
+            <div class="b4">
+                <table class="t2">
+                    <tr>
+                        <td>国家和地区</td>
+                        <td>新增确诊</td>
+                        <td>累计确诊</td>
+                        <td>累计治愈</td>
+                        <td>累计死亡</td>
+                    </tr>
+                </table>
+            </div>
+
+            {% for i in zfh %}
+                <div class="b3">
+                    <table class="t2">
+                        <tr>
+                            <td>{{ i[0] }}</td>
+                            <td>{{ i[1] }}</td>
+                            <td>{{ i[2] }}</td>
+                            <td>{{ i[3] }}</td>
+                            <td>{{ i[4] }}</td>
+                        </tr>
+                    </table>
+                </div>
+            {% endfor %}
+
+
+
+
+        </div>
+
+    <div class="delete" style="background-color: rgba(255, 255, 255, 0.5);height: 1px"></div>
+    </div>
+
+
+</main>
+
+</body>
+
+</html>

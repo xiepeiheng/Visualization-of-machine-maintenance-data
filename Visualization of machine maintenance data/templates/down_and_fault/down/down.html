@@ -1,0 +1,214 @@
+<!--数据表区域 开始-->
+<div class="datatable">
+    <table>
+        <tr class="d1">
+            <td>机组编号</td>
+            <td>机修</td>
+            <td>电修</td>
+            <td>自修</td>
+            <td>换辊</td>
+            <td>待料</td>
+            <td>开机</td>
+            <td>产量</td>
+        </tr>
+        {% for i in cmy1 %}
+            <tr class="d2">
+                <td>{{ i[0] }}</td>
+                <td>{{ i[1] }}</td>
+                <td>{{ i[2] }}</td>
+                <td>{{ i[3] }}</td>
+                <td>{{ i[4] }}</td>
+                <td>{{ i[5] }}</td>
+                <td>{{ i[6] }}</td>
+                <td>{{ i[7] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+<!--数据表区域 结束-->
+
+{% for cmy in cmy2[2:] %}
+    <div id="main{{ cmy[0] }}" class="biggrp"></div>
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('main{{ cmy[0] }}'));
+        option = {
+            title: {
+                text: {{ cmy[0]|tojson }},
+                textStyle: {
+                    fontSize: 30
+                }
+            },
+            xAxis: {
+                type: 'category',
+                data: {{ cmy2[1]|tojson }},
+                axisLabel: {
+                    fontWeight: 'bold',
+                    fontSize: 20
+                }
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    fontWeight: 'bold',
+                    fontSize: 20
+                }
+            },
+            legend: {
+                selectedMode: 'single',
+                textStyle: {
+                    fontWeight: 'bold',
+                    fontSize: 18
+                },
+                data: {{ cmy2[0]|tojson }},
+                //selected: {
+{#                    {% for i in cmy2[0][1:] %}#}
+{#                        '{{ i }}': false,#}
+{#                    {% endfor %}#}
+                //},
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross'
+                },
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            series: [
+                {% for i in cmy[1:] %}
+                    {
+
+                        data: {{ i[1] }},
+                        type: 'line',
+                        smooth: true,
+                        name:{{ i[0] }},
+                        symbol: 'circle',
+                        symbols: '8',
+                        lineStyle: {
+                            width: 6,
+                        },
+                    },
+                {% endfor %}
+            ]
+        };
+
+        myChart.setOption(option);
+    </script>
+
+{% endfor %}
+
+
+<!--数据区域3 开始-->
+<!--数据区域3所在总方格-->
+<div class="b2">
+    {% for i in cmy3[1:] %}
+        <!--第一张图 -->
+        <div id="mai{{ i[0] }}" class="grp"></div>
+        <script type="text/javascript">
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById("mai{{ i[0] }}"));
+
+            // 指定图表的配置项和数据
+            option = {
+                title: {
+                    text: '{{ i[0] }}机组',
+                    textStyle: {
+                        fontSize: 20
+                    },
+                },
+                xAxis: {
+                    type: 'category',
+                    data: {{ cmy3[0][2:]|tojson }},
+                    axisLabel: {
+                        fontWeight: 'bold',
+                        fontSize: 12
+                    }
+                },
+                legend: {
+                    data: ['分钟数'],
+                    textStyle: {
+                        fontWeight: 'bold',
+                        fontSize: 18
+                    },
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLabel: {
+                        fontWeight: 'bold',
+                        fontSize: 12
+                    }
+                },
+                tooltip: {},
+                series: [{
+                    name: '分钟数',
+                    data: {{ i[2:]|tojson }},
+                    type: 'bar',
+                }]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        </script>
+        <!--第二张图 -->
+        <div id="main{{ i[0] }}" class="grp"></div>
+        <script type="text/javascript">
+            var myChart = echarts.init(document.getElementById('main{{ i[0] }}'));
+            option = {
+                title: {
+                    text: '{{ i[0] }}机组',
+                    textStyle: {
+                        fontSize: 20
+                    },
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b}: {c} ({d}%)'
+                },
+                legend: {
+                    data: {{ cmy3[0]|tojson }},
+                    textStyle: {
+                        fontWeight: 'bold',
+                        fontSize: 18
+                    },
+                },
+                series: [
+                    {
+                        type: 'pie',
+                        selectedMode: 'single',
+                        radius: [0, '30%'],
+                        labelLine: {
+                            show: false
+                        },
+                        label: {
+                            position: 'inner',
+                            fontSize: 14,
+                        },
+                        data: [
+                            {value: {{ i[1]|tojson }}, name: '停车时间'},
+                            {value: {{ i[7]|tojson }}, name: '运行时间'},
+                        ]
+                    },
+                    {
+                        type: 'pie',
+                        radius: ['45%', '60%'],
+                        labelLine: {
+                            length: 30,
+                        },
+                        label: {},
+                        data: [
+                            {value: {{ i[2]|tojson }}, name: '机修'},
+                            {value: {{ i[3]|tojson }}, name: '电修'},
+                            {value: {{ i[4]|tojson }}, name: '自修'},
+                            {value: {{ i[5]|tojson }}, name: '换辊'},
+                            {value: {{ i[6]|tojson }}, name: '待料'},
+                        ]
+                    }
+                ]
+            };
+            myChart.setOption(option);
+        </script>
+    {% endfor %}
+</div>

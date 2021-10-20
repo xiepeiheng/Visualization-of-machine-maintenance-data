@@ -1,0 +1,115 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+/* 图片背景 */
+body{
+    background-image: url(../../down_and_fault/img/bg.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100%;
+}
+/* 大标题 */
+.title{
+    padding-top: 80px;
+    padding-bottom: 100px;
+    padding-left: 100px;
+}
+
+/* 主方格 */
+
+/*b1 最外层的不透明框*/
+.b1{
+    width: 1300px;
+    margin: 100px auto 0;
+    padding-bottom: 50px;
+    border-top: 1px rgba(255, 255, 255, 0.4) solid;
+    background-color: rgba(255, 255, 255, 0.4);
+}
+/*50-1200-50*/
+.datatable{
+    width: 1200px;
+    /*height: 450px;*/
+    margin: 50px 50px 50px 50px;
+}
+.d1{
+    height: 100px;
+    font-size: x-large;
+    font-weight: bold;
+}
+td{
+    width: 300px;
+    text-align: center;
+}
+.d2{
+    height: 50px;
+    font-size: larger;
+}
+.grp{
+    width: 1200px;
+    height: 600px;
+    margin: 50px 0 0 50px;
+    display: inline-block;
+}
+.biggrp{
+    width: 1200px;
+    height: 1000px;
+    margin: 50px 0 0 50px;
+    display: inline-block;
+}
+.b2{
+    margin: 50px;
+    overflow: auto;
+}
+
+/* 跳转至表格区域的按钮 */
+datalist{
+    margin: 50px 0 0 50px;
+    width: 1200px;
+}
+datalist button{
+    margin: 50px 0 50px 200px;
+    width: 300px;
+    height: 50px;
+}
+
+
+/*数据透视表*/
+/*1200*/
+.list1{
+    margin: 50px 0 0 50px;
+    width: 1190px;
+}
+.list1 label{
+    width: 150px;
+    height: 50px;
+    font-size: x-large;
+}
+.list1 input{
+    height: 50px;
+    width: 247px;
+    margin-right: 92px;
+    font-size: large;
+}
+/*#xph4, #xph2{*/
+/*    margin-right: 0;*/
+/*}*/
+.list1 button{
+    width: 199px;
+    height: 50px;
+    display: inline-block;
+}
+
+/*页面尾部*/
+footer{
+    width: 1300px;
+    height: 100px;
+    margin: 70px auto 0;
+    border-top: 1px rgba(255, 255, 255, 0.4) solid;
+    background-color: rgba(255, 255, 255, 0.4);
+}
+.text{
+    width: 1050px;
+    margin: 30px auto 0;
+    text-align: center;
+}

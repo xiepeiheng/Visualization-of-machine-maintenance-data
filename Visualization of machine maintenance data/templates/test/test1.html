@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>fdsfd</title>
+    <meta charset="utf-8">
+    <!--引入图标和导航栏script-->
+    <link rel="shortcut icon " type="images/x-icon" href="../../static/common/logo.png">
+    <script src="../../static/down_and_fault/js/script.js"></script>
+    <!--引入echarts和jquery-->
+    <script src="../../static/common/jquery-3.6.0.min.js"></script>
+    <script src="../../static/common/echarts.min.js"></script>
+    <!--保证时间选择框运行所必要的组件-->
+    <script src="../../static/common/datepick/bootstrap-datepicker.min.js"></script>
+    <script src="../../static/common/datepick/bootstrap-datepicker.zh-CN.js"></script>
+    <script src="../../static/common/datepick/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../../static/common/datepick/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" href="../../static/common/datepick/bootstrap.min.css">
+    <script>
+        $(document).ready(function () {
+            $('#btn1').click(function () {
+                    const start_time = '2021-06-01'
+                    const stop_time = '2021-07-30'
+
+                    var crew = $('#xph1').val().trim()
+                    var procedure = $('#xph2').val().trim()
+                    var device = $('#xph3').val().trim()
+                    var fault = $('#xph4').val().trim()
+
+                    $.ajax({
+                        url: '{{ url_for('test1.test2') }}',
+                        type: 'post',
+                        data: {
+                            'a': crew,
+                            'b': procedure,
+                            'c': device,
+                            'd': fault,
+                            'e': start_time,
+                            'f': stop_time
+                        },
+                        success: function (data) {
+                            $("#hxy").html(data);
+                        },
+                        error: function () {
+                            console.log('失败')
+                        }
+                    })
+                },
+                // 月选择器
+                $('#xph1').datepicker({
+                    language: "zh-CN",
+                    clearBtn: true,
+                    autoclose: true,
+                    todayHighlight: true,
+                    startView: 1,
+                    minViewMode: 1,
+                    maxViewMode: 2,
+                    format: 'yyyy-mm'
+                }),
+                $('#xph2').datepicker({
+                    language: "zh-CN",
+                    clearBtn: true,
+                    autoclose: true,
+                    todayHighlight: true,
+                    startView: 1,
+                    minViewMode: 1,
+                    maxViewMode: 2,
+                    format: 'yyyy-mm'
+                }),
+                // 周选择器
+                $('#xph4').datepicker({
+                    language: "zh-CN",
+                    clearBtn: true,
+                    autoclose: true,
+                    todayHighlight: true,
+                    daysOfWeekDisabled: '0,2,3,4,5,6',
+                    daysOfWeekHighlighted: '1',
+                }),
+                $('#xph5').datepicker({
+                    language: "zh-CN",
+                    clearBtn: true,
+                    autoclose: true,
+                    todayHighlight: true,
+                    daysOfWeekDisabled: '1,2,3,4,5,6',
+                    daysOfWeekHighlighted: '0',
+                }),
+                $('#btn11').click(function () {
+                    console.log($('#xph1').val(), $('#xph2').val())
+                }),
+                $('#btn22').click(function () {
+                    console.log($('#xph4').val(), $('#xph5').val())
+                })
+            );
+        })
+    </script>
+</head>
+<body>
+<p>月对比选择器</p>
+<!--选择器的颗粒度只到月份-->
+<label for="xph1">起始月份：</label><input id="xph1">
+<label for="xph2">结束月份：</label><input id="xph2">
+<label for="xph3">机组编号：</label><input id="xph3">
+<button id="btn11">提交</button>
+<p>周对比选择器</p>
+<label for="xph4">起始日期：</label><input id="xph4">
+<label for="xph5">结束日期：</label><input id="xph5">
+<button id="btn22">提交</button>
+
+{#第一张表#}
+<!--cmy = [[761,762,763], [[1,2,3],[1,2,3],[1,2,3]], [[1,2,3],[1,2,3],[1,2,3]]]-->
+<div>
+    <table>
+        <!--表头-->
+        <tr>
+            <td></td>
+            <td></td>
+            {% for i in cmy1[0] %}
+                <td>{{ i }}</td>
+            {% endfor %}
+        </tr>
+        <!--第一个周期-->
+        {% for m in cmy1[1:] %}
+            <tr>
+                <th rowspan="4">第{{ loop.index }}周</th>
+            </tr>
+            <tr>
+                <td>机修</td>
+                {% for j in m[0] %}
+                    <td>{{ j }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td>电修</td>
+                {% for k in m[1] %}
+                    <td>{{ k }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td>自修</td>
+                {% for l in m[2] %}
+                    <td>{{ l }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+<br>
+{#第二张表#}
+    <table>
+        <!--表头-->
+        <tr>
+            <td></td>
+            <td></td>
+            {% for i in cmy2[0] %}
+                <td>{{ i }}</td>
+            {% endfor %}
+        </tr>
+        <!--第一个周期-->
+        {% for m in cmy2[1:] %}
+            <tr>
+                <th rowspan="4">第{{ loop.index }}周</th>
+            </tr>
+            <tr>
+                <td>故障</td>
+                {% for j in m[0] %}
+                    <td>{{ j }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td>开机</td>
+                {% for k in m[1] %}
+                    <td>{{ k }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td>故障率</td>
+                {% for l in m[2] %}
+                    <td>{{ l }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+
+
+
+</div>
+</body>
+</html>
+
+

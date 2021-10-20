@@ -1,0 +1,24 @@
+{#{% extends 'test/test.html' %}#}
+{#{% block cmy %}#}
+    <br>
+    <div id="main3" style="height: 500px;width: 500px"></div>
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('main3'));
+
+        option = {
+            xAxis: {
+                type: 'category',
+                data: {{ cmy[0]|tojson }}
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: {{ cmy[1]|tojson }},
+                type: 'line'
+            }]
+        };
+
+        myChart.setOption(option);
+    </script>
+{#{% endblock cmy %}#}

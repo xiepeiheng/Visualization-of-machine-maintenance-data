@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>中通钢管数据可视化</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../../static/down_and_fault/css/stoppage.css">
+    <!--引入echarts和jquery-->
+    <script src="../../../static/common/jquery-3.6.0.min.js"></script>
+    <script src="../../../static/common/echarts.min.js"></script>
+    <!--引入图标和导航栏script-->
+    <link rel="shortcut icon " type="images/x-icon" href="../../../static/common/logo.png">
+    <script src="../../../static/down_and_fault/js/script.js"></script>
+    <!--保证时间选择框运行所必要的组件-->
+    <script src="../../../static/common/datepick/bootstrap-datepicker.min.js"></script>
+    <script src="../../../static/common/datepick/bootstrap-datepicker.zh-CN.js"></script>
+    <script src="../../../static/common/datepick/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../../../static/common/datepick/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" href="../../../static/common/datepick/bootstrap.min.css">
+    <style type="text/css">
+        /*导航栏的样式*/
+        ul {
+            padding-left: 0;
+        }
+
+        ul li {
+            list-style-type: none;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .page-header {
+            background-color: rgb(255, 255, 255);
+            position: absolute;
+            width: 100%;
+            min-width: 960px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+            z-index: 1;
+        }
+
+        .page-header.sticky {
+            position: fixed;
+            top: 0;
+        }
+
+        .page-header > .inner {
+            margin: auto;
+            width: 960px;
+        }
+
+        .no-boxshadow .page-header {
+            border-bottom: 1px solid rgb(204, 204, 204);
+        }
+
+        .primary-nav {
+            float: right;
+            line-height: 80px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .primary-nav li {
+            float: left;
+        }
+
+        .primary-nav a {
+            display: block;
+            padding: 0 1.36em;
+        }
+
+        .primary-nav a:hover {
+            background-color: rgb(240, 240, 240);
+        }
+    </style>
+    <script>
+        console.log({{ cmy1|tojson }})
+        $(document).ready(function () {
+            var hxy1 = {{ time[0]|tojson }}
+            var hxy2 = {{ time[1]|tojson }}
+            var cmy1 = hxy1
+            var cmy2 = hxy2
+                $("#btn").click(function () {
+                    cmy1 = $('#qp1').val()
+                    cmy2 = $('#qp2').val()
+                    if (cmy1 > cmy2) {
+                        alert('警告：起始日期大于小于结束日期')
+                        $('#qp1').val(hxy1)
+                        $('#qp2').val(hxy2)
+                    } else if (cmy1 === '' || cmy2 === '') {
+                        alert('警告：起始日期或结束日期未选择')
+                        $('#qp1').val(hxy1)
+                        $('#qp2').val(hxy2)
+                    } else if (cmy1 === hxy1 && cmy2 === hxy2) {
+                        alert('警告：本次选择的日期和上一次完全一样')
+                    } else {
+                        $.ajax({
+                            url: '{{ url_for('stoppage.stoppage2') }}',
+                            type: 'post',
+                            data: {'start': cmy1, 'stop': cmy2},
+                            success: function (data) {
+                                $("#cmy").html(data);
+                                hxy1 = cmy1
+                                hxy2 = cmy2
+                            },
+                            error: function (data) {
+                                alert('出现问题')
+                            }
+                        })
+                    }
+                });
+            $('#qp1').datepicker({
+                language: "zh-CN",
+                clearBtn: true,
+                autoclose: true,
+                todayHighlight: true,
+            });
+            $('#qp2').datepicker({
+                language: "zh-CN",
+                clearBtn: true,
+                autoclose: true,
+                todayHighlight: true,
+            });
+            $('#btn1').click(function () {
+                let time1 = $('#qp1').val()
+                let time2 = $('#qp2').val()
+                let crew = $('#xph1').val().trim()
+                let procedure = $('#xph2').val().trim()
+                let device = $('#xph3').val().trim()
+                let fault = $('#xph4').val().trim()
+                window.open('{{ url_for('stoppage.stoppage3') }}?' + 'a=' + time1 + '&b=' + time2 + '&c=' + crew + '&d=' + procedure + '&e=' + device + '&f=' + fault);
+            });
+            $('#btn2').click(function () {
+
+                let time1 = $('#qp1').val()
+                let time2 = $('#qp2').val()
+                let crew = $('#xph1').val().trim()
+                let procedure = $('#xph2').val().trim()
+                let device = $('#xph3').val().trim()
+                let fault = $('#xph4').val().trim()
+
+
+                $.ajax({
+                    url: '{{ url_for('stoppage.stoppage4') }}',
+                    type: 'post',
+                    data: {
+                        'a': crew,
+                        'b': procedure,
+                        'c': device,
+                        'd': fault,
+                        'e': time1,
+                        'f': time2
+                    },
+                    success: function (data) {
+                        $("#jsk").html(data);
+                        console.log(data)
+                    },
+                    error: function () {
+                        console.log('失败')
+                    }
+                })
+            });
+        })
+    </script>
+</head>
+
+<body>
+<!-- 大标题 -->
+<div class="title">
+    <img src="../../../static/common/logo.png" style="width: 100px;height: 100px" alt="公司logo">
+    <h1>中通钢管数据可视化平台</h1>
+</div>
+<!-- 页面导航栏 -->
+<header class="page-header">
+    <div class="inner">
+        <nav class="primary-nav">
+            <ul>
+                <li><a href="down" target="_blank">停机分析</a></li>
+                <li><a href="stoppage" target="_blank">故障分析</a></li>
+                <li><a href="parse" target="_blank">生产分析</a></li>
+                <li><a href="contrast" target="_blank">信息对比</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<!-- b1 最外层的不透明框 -->
+<!-- 1200 -->
+<!-- 300 100 300 100 200 -->
+<div class="b1">
+    <div class="b0" style="margin: 70px 50px 70px 50px">
+        <label style="width: 150px;display: inline-block;font-size: x-large" for="qp1">开始日期：</label><input type="text" id="qp1" value="{{ time[0] }}" style="width: 247px;height: 50px;margin-right: 100px;font-size: larger">
+        <label style="width: 150px;display: inline-block;font-size: x-large" for="qp2">结束日期：</label><input type="text" id="qp2" value="{{ time[1] }}" style="width: 247px;height: 50px;margin-right: 100px;font-size: larger"><button id="btn" style="width: 200px;height: 50px;display: inline-block">提交</button>
+    </div>
+
+
+    <div id="cmy">
+        {% include 'down_and_fault/stoppage/stoppage-tree.html' %}
+    </div>
+
+{#    <div class="b0" style="margin: 70px 50px 70px 50px">#}
+{#        <label style="width: 150px;display: inline-block;font-size: x-large" for="qp1">开始日期：</label><input type="text" id="qp1" value="{{ time[0] }}" style="width: 247px;height: 50px;margin-right: 100px;font-size: larger">#}
+{#        <label style="width: 150px;display: inline-block;font-size: x-large" for="qp2">结束日期：</label><input type="text" id="qp2" value="{{ time[1] }}" style="width: 247px;height: 50px;margin-right: 100px;font-size: larger"><button id="btn" style="width: 200px;height: 50px;display: inline-block">提交</button>#}
+{#    </div>#}
+
+    <div class="list1">
+        <label for="xph1">机组编号：</label><input id="xph1">
+        <label for="xph2">工序：</label><input id="xph2"><br><br>
+        <label for="xph3">设备：</label><input id="xph3">
+        <label for="xph4">故障部位：</label><input id="xph4"><button id="btn2">提交</button>
+    </div>
+
+    <div id="jsk">
+        {% include 'down_and_fault/stoppage/stoppage-bar.html' %}
+    </div>
+
+    <div style="margin: 50px 0 0 50px;width: 1199px">
+        <button id="btn1" style="display:block;margin: 0 auto;padding: 20px">查看选定日期内的原始数据</button>
+    </div>
+
+</div>
+<footer>
+    <div class="text">数据来源：精益项目组收集整理</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!--停机部分内容的对比表格-->
+<!--数据格式：cmy = [[761,762,763], [[1,2,3],[1,2,3],[1,2,3]], [[1,2,3],[1,2,3],[1,2,3]]]-->
+<table id="table1">
+    <!--表头-->
+    <tr>
+        <td style="width: 70px"></td>
+        <td style="width: 70px"></td>
+        {% for i in cmy1[0] %}
+            <td>{{ i }}</td>
+        {% endfor %}
+    </tr>
+    <!--第一个周期-->
+    {% for m in cmy1[1:] %}
+        <tr class="black">
+            <th rowspan="3">第{{ loop.index }}{{ unit }}</th>
+            <td>机修</td>
+            {% for j in m[0] %}
+                <td>{{ j }}</td>
+            {% endfor %}
+        </tr>
+
+        <tr>
+            <td>电修</td>
+            {% for k in m[1] %}
+                <td>{{ k }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>自修</td>
+            {% for l in m[2] %}
+                <td>{{ l }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+<br>
+<br>
+{#第二张表#}
+<table id="table1">
+    <!--表头-->
+    <tr>
+        <td style="width: 70px"></td>
+        <td style="width: 70px"></td>
+        {% for i in cmy2[0] %}
+            <td>{{ i }}</td>
+        {% endfor %}
+    </tr>
+    <!--第一个周期-->
+    {% for m in cmy2[1:] %}
+        <tr class="black">
+            <th rowspan="3">第{{ loop.index }}{{ unit }}</th>
+            <td>故障</td>
+            {% for j in m[0] %}
+                <td>{{ j }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>开机</td>
+            {% for k in m[1] %}
+                <td>{{ k }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>故障率</td>
+            {% for l in m[2] %}
+                <td>{{ l }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+<br>
+<br>
+<!--第三张表parse表-->
+
+<table id="table1">
+    <!--表头-->
+    <tr>
+        <td style="width: 70px"></td>
+        <td style="width: 90px"></td>
+        {% for i in cmy3[0] %}
+            <td>{{ i }}</td>
+        {% endfor %}
+    </tr>
+    <!--第一个周期-->
+    {% for m in cmy3[2:] %}
+        <tr class="black">
+            <th rowspan='{{ cmy3[1] }}'>第{{ loop.index }}{{ unit }}</th>
+        </tr>
+        {% for h in m %}
+            <tr>
+                {% for o in h %}
+                    <td>{{ o }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+
+    {% endfor %}
+
+</table>
+<br>
+<br>
+
+
+<!--第四张表超过120分钟的表-->
+<table id="table1">
+    <!--表头-->
+    <tr>
+        <td style="width: 70px"></td>
+        <td style="width: 90px"></td>
+        {% for i in cmy6_crew %}
+            <td><button class="h120" id="b{{ i }}">{{ i }}</button></td>
+        {% endfor %}
+    </tr>
+    {#    <tr><td colspan="20" style="background-color: black;height: 2px"></td></tr>#}
+    <!--第一个周期-->
+    {% for m in cmy6 %}
+        <!--m就是这个[['127','273','761'], [535,277,485], [2,2,3]]-->
+        <tr class="black">
+            <th rowspan='2'>第{{ loop.index }}{{ unit }}</th>
+            {% with %}
+                <td>时长</td>
+                {% set num = namespace(value=0) %}
+                {% set len = m[0]|length %}
+                {% for i in cmy6_crew %}
+                    {% if m[0][num.value] == i %}
+                        <td>{{ m[1][num.value] }}</td>
+                        {% if num.value <= len-2 %}
+                            {% set num.value = num.value + 1 %}
+                        {% endif %}
+                    {% else %}
+                        <td> </td>
+                    {% endif %}
+                {% endfor %}
+
+            {% endwith %}
+        </tr>
+
+        {% with %}
+            <tr>
+                <td>次数</td>
+                {% set num = namespace(value=0) %}
+                {% set len = m[0]|length %}
+                {% for i in cmy6_crew %}
+                    {% if m[0][num.value] == i %}
+                        <td>{{ m[2][num.value] }}</td>
+                        {% if num.value <= len-2 %}
+                            {% set num.value = num.value + 1 %}
+                        {% endif %}
+                    {% else %}
+                        <td> </td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endwith %}
+
+        {#        <tr><td colspan="20" style="background-color: black;height: 1px"></td></tr>#}
+    {% endfor %}
+</table>
+<br>
+<br>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+{#    <link rel="stylesheet" href="../../static/down_and_fault/css/">#}
+    <link rel="shortcut icon " type="images/x-icon" href="../../static/common/logo.png">
+    <script src="../../static/common/jquery-3.6.0.min.js"></script>
+    <script src="../../static/down_and_fault/js/script.js"></script>
+    <script src="../../static/common/echarts.min.js"></script>
+    <script src="../../static/common/datepick/bootstrap-datepicker.min.js"></script>
+    <script src="../../static/common/datepick/bootstrap-datepicker.zh-CN.js"></script>
+    <script src="../../static/common/datepick/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../../static/common/datepick/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" href="../../static/common/datepick/bootstrap.min.css">
+    <script>
+        {#var time = {{ time|tojson }}#}
+        {#var xph = {{ time|tojson }}#}
+
+    </script>
+</head>
+<body>
+{{ 100*(xph1/xph2) | round(4, 'floor') }}%
+{#    <div id="main3" style="width: 1000px;height: 500px"></div>#}
+{#<script type="text/javascript">#}
+{#    var myChart = echarts.init(document.getElementById('main3'), {devicePixelRatio: 4});#}
+{#    var time = {{ time|tojson }}#}
+{#    var xph = {{ time|tojson }}#}
+{#    option = {#}
+{#        xAxis: {#}
+{#            type: 'category',#}
+{#            data: time#}
+{#        },#}
+{#        yAxis: {#}
+{#            type: 'value'#}
+{#        },#}
+{#        series: [{#}
+{#            data: xph,#}
+{#            type: 'bar',#}
+{#            barWidth: '100%'#}
+{#        }]#}
+{#    };#}
+{##}
+{#    myChart.setOption(option);#}
+{#</script>#}
+</body>
+</html>

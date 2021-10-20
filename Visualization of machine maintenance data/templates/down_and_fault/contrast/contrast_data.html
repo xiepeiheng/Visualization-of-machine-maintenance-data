@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>中通钢管数据可视化</title>
+    <link rel="shortcut icon " type="images/x-icon" href="../../../static/common/logo.png">
+    <script src="../../../static/common/jquery-3.6.0.min.js"></script>
+    <style type="text/css">
+        table{
+            margin: 50px auto;
+        }
+        table td{
+            text-align: center;
+        }
+        table td, table th{
+            width: 120px;
+            border: solid 1px black;
+        }
+        table th{
+            height: 50px;
+        }
+        body{
+            background-image: url(../../static/down_and_fault/img/bg.jpg);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100%;
+        }
+    </style>
+    <script>
+        $(document).ready(function(){
+            $("tr:gt(0)").each(function(){
+                if($('td:nth-child(7)',this).text() === ''){
+                    $('td',this).css('background-color','yellow')
+                }
+                //else{
+                //    if($('td:nth-child(7)',this).text() > 120){
+                //        $('td:nth-child(7)',this).parent().css('background-color','yellow');
+                //    }
+                //}
+
+            });
+        });
+    </script>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>日期</th><th>工序</th><th>设备</th><th>故障部位</th><th>开始时间</th><th>结束时间</th><th>停车时长</th><th style="width: 250px">故障描述</th><th style="width: 250px">故障处理结果</th><th>维修部门</th>
+        </tr>
+        {% for i in cmy %}
+            <tr>
+                <td colspan="10">{{ i[0][0] }} - {{ i[0][1] }}</td>
+            </tr>
+            {% for j in i[1] %}
+                <tr>
+                    <td>{{ j[0] }}</td><td>{{ j[1] }}</td><td>{{ j[2] }}</td><td>{{ j[3] }}</td><td>{{ j[4] }}</td><td>{{ j[5] }}</td><td>{{ j[6] }}</td><td>{{ j[7] }}</td><td style="width: 200px">{{ j[8] }}</td><td style="width: 200px">{{ j[9] }}</td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    </table>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<script>console.log({{ table|tojson }})</script>
+<div class="datatable">
+    <table>
+        <tr class="d1">
+            <td>机组编号</td>
+            <td>成材率</td>
+            <td>人均吨钢</td>
+            <td>吨电耗</td>
+            <td>单位产量</td>
+            <td>吨备件</td>
+            <td>产量</td>
+        </tr>
+        {% for i in table %}
+            <tr class="d2">
+                <td>{{ i[0] }}</td>
+                <td>{{ i[1] }}</td>
+                <td>{{ i[2] }}</td>
+                <td>{{ i[3] }}</td>
+                <td>{{ i[4] }}</td>
+                <td>{{ i[5] }}</td>
+                <td>{{ i[6] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
+{% for i in cmy %}
+    <div id="main{{ loop.index0 }}" class="biggrp"></div>
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('main{{ loop.index0 }}'));
+        option = {
+            title: {
+                text: '{{ pic_name[loop.index0] }}',
+                textStyle: {
+                    fontSize: 30
+                }
+            },
+            xAxis: {
+                type: 'category',
+                axisLabel: {
+                    fontWeight: 'bold',
+                    fontSize: 20
+                }
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    fontWeight: 'bold',
+                    fontSize: 20
+                }
+            },
+            legend: {
+                selectedMode: 'single',
+                textStyle: {
+                    fontWeight: 'bold',
+                    fontSize: 15
+                },
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                },
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            dataset: {
+                source: {{ i|tojson }}
+            },
+            series: [
+                {% for k in range(crew_length) %}
+                    {
+                        type: 'line',
+                        barWidth: '100%',
+                        areaStyle: {},
+                        smooth: true,
+                        symbol: 'circle',
+                        symbols: '10',
+                    },
+                {% endfor %}
+            ]
+        };
+
+        myChart.setOption(option);
+    </script>
+{% endfor %}
+
+
+
+
+
+
+{#<div id="main10" class="biggrp"></div>#}
+{#<script type="text/javascript">#}
+{#    var myChart = echarts.init(document.getElementById('main10'));#}
+{#    option = {#}
+{#        title: {#}
+{#            text: '单位产量',#}
+{#            textStyle: {#}
+{#                fontSize: 30#}
+{#            }#}
+{#        },#}
+{#        xAxis: {#}
+{#            type: 'category',#}
+{#            data: {{ cmy[0]|tojson }},#}
+{#            axisLabel: {#}
+{#                fontWeight: 'bold',#}
+{#                fontSize: 20#}
+{#            }#}
+{#        },#}
+{#        yAxis: {#}
+{#            type: 'value',#}
+{#            axisLabel: {#}
+{#                fontWeight: 'bold',#}
+{#                fontSize: 20#}
+{#            }#}
+{#        },#}
+{#        legend: {#}
+{#            textStyle: {#}
+{#                fontWeight: 'bold',#}
+{#                fontSize: 15#}
+{#            },#}
+{#            selectedMode: 'single',#}
+{#            data: {{ cmy[1]|tojson }},#}
+{#            //selected: {#}
+{#                {% for i in cmy[1][2:] %}#}
+{#                    '{{ i }}': false,#}
+{#                {% endfor %}#}
+{#            //},#}
+{#        },#}
+{#        tooltip: {#}
+{#            trigger: 'axis',#}
+{#            axisPointer: {#}
+{#                type: 'shadow'#}
+{#            },#}
+{#        },#}
+{#        toolbox: {#}
+{#            feature: {#}
+{#                saveAsImage: {}#}
+{#            }#}
+{#        },#}
+{#        series: [#}
+{#            {% for i in jsk %}#}
+{#                {#}
+{#                    data: {{ i[1]|tojson }},#}
+{#                    type: 'bar',#}
+{#                    barWidth: '100%',#}
+{#                    areaStyle: {},#}
+{#                    smooth: true,#}
+{#                    name:{{ i[0]|tojson }},#}
+{#                    symbol: 'circle',#}
+{#                    symbols: '10',#}
+{#                    //lineStyle: {#}
+{#                    //    width: 6,#}
+{#                    //},#}
+{#                },#}
+{#            {% endfor %}#}
+{#        ]#}
+{#    };#}
+{##}
+{#    myChart.setOption(option);#}
+{#</script>#}
+{##}
+{#<!-- 吨备件 -->#}
+{#<div id="main11" class="biggrp"></div>#}
+{#<script type="text/javascript">#}
+{#    var myChart = echarts.init(document.getElementById('main11'));#}
+{#    option = {#}
+{#        title: {#}
+{#            text: '吨备件',#}
+{#            textStyle: {#}
+{#                fontSize: 30#}
+{#            }#}
+{#        },#}
+{#        xAxis: {#}
+{#            type: 'category',#}
+{#            axisLabel: {#}
+{#                fontWeight: 'bold',#}
+{#                fontSize: 20#}
+{#            }#}
+{#        },#}
+{#        yAxis: {#}
+{#            type: 'value',#}
+{#            axisLabel: {#}
+{#                fontWeight: 'bold',#}
+{#                fontSize: 20#}
+{#            }#}
+{#        },#}
+{#        legend: {#}
+{#            data: {{ cmy[1]|tojson }},#}
+{#            textStyle: {#}
+{#                fontWeight: 'bold',#}
+{#                fontSize: 15#}
+{#            },#}
+{#        },#}
+{#        tooltip: {#}
+{#            trigger: 'axis',#}
+{#            axisPointer: {#}
+{#                type: 'shadow'#}
+{#            },#}
+{#        },#}
+{#        toolbox: {#}
+{#            feature: {#}
+{#                saveAsImage: {}#}
+{#            }#}
+{#        },#}
+{#        series: [#}
+{#            {#}
+{#                data: {{ spare_part|tojson }},#}
+{#                type: 'bar',#}
+{#                smooth: true,#}
+{#                name: '吨备件',#}
+{##}
+{#            },#}
+{#        ]#}
+{#    };#}
+{##}
+{#    myChart.setOption(option);#}
+{#</script>#}

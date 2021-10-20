@@ -1,0 +1,54 @@
+<div id="main11" class="grp"></div>
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('main11'), {devicePixelRatio: 4});
+    option = {
+        title: {
+            text: '故障趋势表',
+            textStyle: {
+                fontSize: 30
+            }
+        },
+        xAxis: {
+            type: 'category',
+            data: {{ love[0]|tojson }},
+            axisLabel: {
+                fontWeight: 'bold',
+                fontSize: 20
+            }
+        },
+        yAxis: {
+            type: 'value',
+            axisLabel: {
+                fontWeight: 'bold',
+                fontSize: 20
+            }
+        },
+        legend: {
+            textStyle: {
+                fontWeight: 'bold',
+                fontSize: 15
+            },
+        },
+        tooltip: {
+            //trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            },
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        series: [
+            {
+                data: {{ love[1]|tojson }},
+                type: 'bar',
+                smooth: true,
+                name: '故障时长',
+                barWidth: '100%', //柱状图柱子之间的间距变为零
+            },
+        ]
+    };
+    myChart.setOption(option);
+</script>

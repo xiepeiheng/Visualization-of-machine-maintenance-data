@@ -1,0 +1,107 @@
+<!--故障率柱状图-->
+<div id="main11" style="width:600px;height:500px;float: right"></div>
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('main11'), {devicePixelRatio: 2.5});
+
+    option = {
+        legend: {
+            textStyle: {
+                fontWeight: 'bold',
+                fontSize: 18
+            },
+        },
+        tooltip: {},
+        dataset: {
+            source: {{ cmy4|tojson }}
+        },
+        xAxis: {
+            type: 'category',
+            axisLabel: {
+                fontWeight: 'bold',
+                fontSize: 20
+            }
+        },
+        yAxis: {
+            axisLabel: {
+                fontWeight: 'bold',
+                fontSize: 20
+            }
+        },
+        series: [
+            {type: 'bar'},
+            {type: 'bar'},
+            {type: 'bar'},
+        ]
+    };
+    myChart.setOption(option);
+</script>
+<!--机电自对比表-->
+<div id="main12" style="width:600px;height:500px"></div>
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('main12'), {devicePixelRatio: 2.5});
+
+    option = {
+        legend: {
+            textStyle: {
+                fontWeight: 'bold',
+                fontSize: 18
+            },
+        },
+        tooltip: {},
+        dataset: {
+            source: {{ cmy5|tojson }}
+        },
+        xAxis: {
+            type: 'category',
+            axisLabel: {
+                fontWeight: 'bold',
+                fontSize: 20
+            }
+        },
+        yAxis: {
+            axisLabel: {
+                fontWeight: 'bold',
+                fontSize: 20
+            }
+        },
+        series: [
+            {type: 'bar'},
+        ]
+    };
+    myChart.setOption(option);
+</script>
+<!--故障时间柱状图-->
+<div id="main13" style="width:600px;height:500px"></div>
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('main13'), {devicePixelRatio: 2.5});
+
+    option = {
+        legend: {
+            textStyle: {
+                fontWeight: 'bold',
+                fontSize: 18
+            },
+        },
+        tooltip: {},
+        dataset: {
+            source: {{ cmy7|tojson }}
+        },
+        xAxis: {
+            type: 'category',
+            axisLabel: {
+                fontWeight: 'bold',
+                fontSize: 20
+            }
+        },
+        yAxis: {
+            axisLabel: {
+                fontWeight: 'bold',
+                fontSize: 20
+            }
+        },
+        series: [
+            {type: 'bar'},
+        ]
+    };
+    myChart.setOption(option);
+</script>
